@@ -5,6 +5,8 @@ import { getLeads, deleteLead } from '../../actions/leads';
 
 const propTypes = {
   leads: PropTypes.array.isRequired,
+  getLeads: PropTypes.func.isRequired,
+  deleteLead: PropTypes.func.isRequired,
 };
 
 // 3333333333333333.37
@@ -20,7 +22,7 @@ class Leads extends Component {
   };
 
   render() {
-    const { leads, deleteLead } = this.props;
+    const { leads } = this.props;
     return (
       <Fragment>
         <h2>Leads</h2>

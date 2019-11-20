@@ -1,7 +1,7 @@
 import axios from 'axios';
 
-import { createMessage } from './messages';
-import { GET_LEADS, DELETE_LEAD, ADD_LEAD, GET_ERRORS } from './types';
+import { createMessage, returnErrors } from './messages';
+import { GET_LEADS, DELETE_LEAD, ADD_LEAD } from './types';
 
 // GET Leads
 export const getLeads = () => async dispatch => {
@@ -12,7 +12,7 @@ export const getLeads = () => async dispatch => {
       payload: response.data,
     });
   } catch (error) {
-    console.log(error.message);
+    dispatch(returnErrors(error.response.data, error.response.status));
   }
 };
 
@@ -26,14 +26,15 @@ export const addLead = lead => async dispatch => {
     });
     dispatch(createMessage({ addLead: 'Lead Added' }));
   } catch (error) {
-    const errors = {
-      msg: error.response.data,
-      status: error.response.status,
-    };
-    dispatch({
-      type: GET_ERRORS,
-      payload: errors,
-    });
+    dispatch(returnErrors(error.response.data, error.response.status));
+    // const errors = {
+    //   msg: error.response.data,
+    //   status: error.response.status,
+    // };
+    // dispatch({
+    //   type: GET_ERRORS,
+    //   payload: errors,
+    // });
   }
 };
 
@@ -47,6 +48,6 @@ export const deleteLead = id => async dispatch => {
     });
     dispatch(createMessage({ deleteLead: 'Lead Deleted' }));
   } catch (error) {
-    console.log(error.message);
+    dispatch(returnErrors(error.response.data, error.response.status));
   }
 };
